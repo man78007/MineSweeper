@@ -5,11 +5,11 @@
 
 //---------------------------------------------------------------------------
 #include "FieldUnit.h"
+#include "OptionsUnit.h"
 
 void TField::InitCells()
 //Установить начальное значение каждой клетки
 {
-  const int Size = 20;
   const int Left = 10;
   const int Top = 10;
  //Создать матрицу Cells
@@ -33,13 +33,13 @@ void TField::InitCells()
       Cells[r][c].L = new TStaticText(Parent);
       Cells[r][c].L->AutoSize = false;
       Cells[r][c].L->Parent = (TWinControl*)Parent;
-      Cells[r][c].L->Width = Size;
-      Cells[r][c].L->Height = Size;
-      Cells[r][c].L->Left = Size * c + Left;
-      Cells[r][c].L->Top = Size * r + Top;
+      Cells[r][c].L->Width = OptionForm->Size;
+      Cells[r][c].L->Height = OptionForm->Size;
+      Cells[r][c].L->Left = OptionForm->Size * c + Left;
+      Cells[r][c].L->Top = OptionForm->Size * r + Top;
       Cells[r][c].L->BorderStyle = sbsSunken;
       //Нарисовать
-      Cells[r][c].Show();
+      //Cells[r][c].Show();
     }
 }
 
@@ -120,6 +120,7 @@ void TField::InitCells()
       if (Cells[r][c].Opened) return; //Помечать открытое?
       Cells[r][c].Marked = !Cells[r][c].Marked;
       Cells[r][c].Show();
+      if (Finished(OptionForm->HowMany)) ShowMessage("ПОБЕДА!!!");
     }
 
     void TField::OnLeftClick(int r,int c)
@@ -140,6 +141,8 @@ void TField::InitCells()
       DoOpen(r,c);
       Cells[r][c].Opened = true;
       Cells[r][c].Show();
+
+      if (Finished(OptionForm->HowMany)) ShowMessage("ПОБЕДА!!!");
     }
 
 
@@ -159,6 +162,7 @@ void TField::InitCells()
      if (Cells[row][col].NeightBoards>0) return; //Соседей многовато. Открываем только 0
     //Всё хорошо. Открываемся.
       Cells[row][col].Opened = true; //Фиксируем
+      Cells[row][col].Marked = false; //Так не бывает потому сто
       Cells[row][col].Show(); //Рисуем
     //И, наконец, рекурсия: всех соседей
       for (int i=-1; i<=1; i++)

@@ -27,11 +27,13 @@ Field содержит матрицу произвольного размера из Cell
 Options позволяет задавать размеры поля
 и раскраску клеток
 
-
-
+Предусмотрено маленькое жульничество для игрока -
+если он догадается "пометить/снять пометку", то клетка без мины
+"откроется".
 
 */
 #include "FieldUnit.h"
+#include "OptionsUnit.h"
 
 TMainForm *MainForm;
 //---------------------------------------------------------------------------
@@ -42,70 +44,34 @@ __fastcall TMainForm::TMainForm(TComponent* Owner)
 //---------------------------------------------------------------------------
 TField * F;
 
-void __fastcall TMainForm::Button1Click(TObject *Sender)
+void __fastcall TMainForm::N5Click(TObject *Sender)
 {
-  F = new TField(10,10,this);
+ Close();        
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TMainForm::Button2Click(TObject *Sender)
+void __fastcall TMainForm::N6Click(TObject *Sender)
 {
- for (int r=0; r<F->Rows; r++)
-  for (int c=0; c<F->Cols; c++)
-  {
-   F->Cells[r][c].Marked = !F->Cells[r][c].Marked;
-   F->Cells[r][c].Show();
-  }
+ ShowMessage("Microsoft Minesweeper посвящается");        
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TMainForm::Button3Click(TObject *Sender)
+void __fastcall TMainForm::N2Click(TObject *Sender)
 {
- for (int r=0; r<F->Rows; r++)
-  for (int c=0; c<F->Cols; c++)
-  {
-   F->Cells[r][c].Opened = !F->Cells[r][c].Opened;
-   F->Cells[r][c].Show();
-  }
+  OptionForm->ShowModal();        
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TMainForm::Button4Click(TObject *Sender)
+void __fastcall TMainForm::N3Click(TObject *Sender)
 {
- for (int r=0; r<F->Rows; r++)
-  for (int c=0; c<F->Cols; c++)
-  {
-   F->Cells[r][c].HasMine = !F->Cells[r][c].HasMine;
-   F->Cells[r][c].Opened = F->Cells[r][c].HasMine;
-   F->Cells[r][c].Show();
-  }
+ if (F) free(F);
+ F = new TField(
+  OptionForm->Rows,
+  OptionForm->Cols,
+  this
+ );
+ F->GenerateMines(OptionForm->HowMany);
+ 
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TMainForm::BitBtn1Click(TObject *Sender)
-{
-  F->GenerateMines(StrToInt(LabeledEdit1->Text));
-}
-//---------------------------------------------------------------------------
-
-bool Fin=false;
-
-void __fastcall TMainForm::BitBtn2Click(TObject *Sender)
-{
-   for (int r=0; r<F->Rows; r++)
-    for (int c=0; c<F->Cols; c++)
-     {
-      F->Cells[r][c].Marked = F->Cells[r][c].HasMine && Fin;
-      F->Cells[r][c].Opened = !F->Cells[r][c].Marked;
-      F->Cells[r][c].Show();
-     }
-   Fin = !Fin;
-   if (F->Finished(StrToInt(LabeledEdit1->Text)))
-    ShowMessage("Окончена");
-   else
-    ShowMessage("Не окончена");
-
-}
-//---------------------------------------------------------------------------
-
 

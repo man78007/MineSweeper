@@ -1,6 +1,6 @@
 ﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{8E9CF6BD-9E6F-4BC1-93AA-C6048C872329}</ProjectGuid>
+			<ProjectGuid>{1626B939-38A0-487F-B912-5C9482FCC334}</ProjectGuid>
 			<ProjectType>CppVCLApplication</ProjectType>
 			<MainSource>Miner.cpp</MainSource>
 			<Base>True</Base>

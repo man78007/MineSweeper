@@ -5,6 +5,7 @@
 
 #include "CellUnit.h"
 #include "FieldUnit.h"
+#include "OptionsUnit.h"
 
 //---------------------------------------------------------------------------
 
@@ -30,12 +31,12 @@
        {
         if (HasMine)
          {
-           L->Color = clRed;
+           L->Color = clRed;  //Мина! Но так не при отладке не бывает.
            L->Caption = "O";
          }
         else
          {
-          L->Color = (TColor)RGB(150,150,255);
+          L->Color = OptionForm->OpenedColor;// (TColor)RGB(150,150,255); //Открыт
           if (NeightBoards)     L->Caption = IntToStr(NeightBoards);
           else                  L->Caption = "";
          }
@@ -46,12 +47,12 @@
   //желтый, если помечено пользователем
   if (Marked)
   {
-   L->Color = clYellow;
+   L->Color = OptionForm->MarkedColor; //Помечено
    L->Caption = "";
    return;
   }
   else
-   L->Color = clBtnFace;
+   L->Color = OptionForm->NormalColor;// clBtnFace; //Обычный
 
   //И, наконец, если есть хоть один ОТКРЫТЫЙ сосед, то вывести количество соседних мин
   //цветом, ему соответствующим, ниаче - не выводить ничего
