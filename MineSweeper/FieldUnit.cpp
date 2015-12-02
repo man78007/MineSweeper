@@ -6,6 +6,7 @@
 //---------------------------------------------------------------------------
 #include "FieldUnit.h"
 #include "OptionsUnit.h"
+#include "MainUnit.h"
 
 void TField::InitCells()
 //Установить начальное значение каждой клетки
@@ -56,7 +57,7 @@ void TField::InitCells()
     void TField::GenerateMines(int HowMany)
     {
           for (int row=0; row<Rows;row++)
-           for (int col=0; col<Rows;col++)
+           for (int col=0; col<Cols;col++)
            {
             Cells[row][col].HasMine = false;
             Cells[row][col].Opened = false;
@@ -75,7 +76,7 @@ void TField::InitCells()
           }
 
           for (int row=0; row<Rows;row++)
-           for (int col=0; col<Rows;col++)
+           for (int col=0; col<Cols;col++)
             {
               Cells[row][col].NeightBoards+=check(row-1,col-1);
               Cells[row][col].NeightBoards+=check(row-1,col-0);
@@ -88,7 +89,7 @@ void TField::InitCells()
             }
 
           for (int row=0; row<Rows;row++)
-           for (int col=0; col<Rows;col++)
+           for (int col=0; col<Cols;col++)
             Cells[row][col].Show();
     }
 
@@ -113,6 +114,11 @@ void TField::InitCells()
              return (OK == HowMany);
         }
 
+     void TField::Open()
+     {
+       MainForm->Timer1->Enabled = true;
+     }
+
     void TField::OnRightClick(int r,int c)
     {
      //Если нажали на правую кнопку - изменить пометку
@@ -120,7 +126,11 @@ void TField::InitCells()
       if (Cells[r][c].Opened) return; //Помечать открытое?
       Cells[r][c].Marked = !Cells[r][c].Marked;
       Cells[r][c].Show();
-      if (Finished(OptionForm->HowMany)) ShowMessage("ПОБЕДА!!!");
+      if (Finished(OptionForm->HowMany))
+      {
+       ShowMessage("ПОБЕДА!!!");
+       Open();
+      }
     }
 
     void TField::OnLeftClick(int r,int c)
@@ -132,9 +142,7 @@ void TField::InitCells()
   //И проверить на НЕОЖИДАННЫЙ БАБАХ
       if (Cells[r][c].HasMine) {
         ShowMessage("Сапёр ошибается только один раз!");
-        ShowMessage("Formatting C:");
-        ShowMessage("Formatting D:");
-        ShowMessage("Formatting E:");
+        Open();
         return;
       };
   //Открыть соседей - рекурсивно
@@ -168,6 +176,13 @@ void TField::InitCells()
       for (int i=-1; i<=1; i++)
        for (int j=-1; j<=1; j++)
         DoOpen(row+i,col+j);
+    }
+
+    void TField::Free() //Освободить занятые ресурсы
+    {
+     for (int r=0; r<Rows; r++)
+      for (int c=0; c<Cols; c++)
+       Cells[r][c].Free();
     }
 
 

@@ -21,10 +21,12 @@ __published:	// IDE-managed Components
         TMenuItem *N4;
         TMenuItem *N5;
         TMenuItem *N6;
+        TTimer *Timer1;
         void __fastcall N5Click(TObject *Sender);
         void __fastcall N6Click(TObject *Sender);
         void __fastcall N2Click(TObject *Sender);
         void __fastcall N3Click(TObject *Sender);
+        void __fastcall Timer1Timer(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
         __fastcall TMainForm(TComponent* Owner);

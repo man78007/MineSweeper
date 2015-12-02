@@ -1,9 +1,9 @@
 object MainForm: TMainForm
   Left = 192
   Top = 107
-  Width = 708
-  Height = 494
   Caption = 'MainForm'
+  ClientHeight = 0
+  ClientWidth = 120
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -40,5 +40,11 @@ object MainForm: TMainForm
       Caption = #1054' '#1087#1088#1086#1075#1088#1072#1084#1084#1077
       OnClick = N6Click
     end
+  end
+  object Timer1: TTimer
+    Enabled = False
+    OnTimer = Timer1Timer
+    Left = 128
+    Top = 80
   end
 end

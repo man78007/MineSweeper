@@ -62,16 +62,56 @@ void __fastcall TMainForm::N2Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+int OldRows=0;
+int OldCols=0;
+
 void __fastcall TMainForm::N3Click(TObject *Sender)
 {
- if (F) free(F);
- F = new TField(
-  OptionForm->Rows,
-  OptionForm->Cols,
-  this
- );
+ bool NeedToCreate = F == NULL;
+ if (F)
+ {
+  if
+  (
+    (OldRows !=OptionForm->Rows)
+    ||
+    (OldCols != OptionForm->Cols)
+  )
+  {
+   F->Free();
+   free(F);
+   F = NULL;
+   NeedToCreate = true;
+  };
+  }
+
+  if (NeedToCreate)
+  {
+   OldRows =OptionForm->Rows;
+   OldCols = OptionForm->Cols;
+   F = new TField(
+    OldRows,
+    OldCols,
+    this
+    );
+
+ };
+
+
+
+
  F->GenerateMines(OptionForm->HowMany);
- 
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainForm::Timer1Timer(TObject *Sender)
+{
+  Timer1->Enabled = false;
+  for (int r=0; r<F->Rows; r++)
+   for (int c=0; c<F->Cols; c++)
+   {
+     F->Cells[r][c].Opened = true;
+     F->Cells[r][c].Show();
+   }
 }
 //---------------------------------------------------------------------------
 

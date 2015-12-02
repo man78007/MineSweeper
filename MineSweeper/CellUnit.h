@@ -33,6 +33,7 @@ class TCell
    int Row; //Координаты в поле
    int Col;
    void Show();  //Настроить показ L
+   void Free(); //Освободить ресурсы
 };
 
 #endif

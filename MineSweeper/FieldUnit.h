@@ -32,5 +32,7 @@ class TField{
     void OnLeftClick(int x,int y); //Левая мышка нажата
     void OnRightClick(int x,int y); //Правая мышка нажата
     void DoOpen(int row,int col); //Открыть часть поля
+    void Free(); //Освободить занятые ресурсы
+    private: void TField::Open();
 };
 #endif
